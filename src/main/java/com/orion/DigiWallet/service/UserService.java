@@ -23,12 +23,12 @@ public class UserService  {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAllUsers() {
-        logger.info("Fetching all users from database");
-
-        List<User> users = userRepository.findAll();
-        logger.info("Total users fetched: {}", users.size());
-        return users;
+//    public List<User> getAllUsers() {
+//        logger.info("Fetching all users from database");
+//
+//        List<User> users = userRepository.findAll();
+//        logger.info("Total users fetched: {}", users.size());
+//        return users;
         //TODO: 1.4
         // For each user in the list, call generateGreetingMsg(user)
         // before returning the list
@@ -36,16 +36,35 @@ public class UserService  {
         // test the result on swagger or postman
 
 
+//    }
+    public List<User> getAllUsers() {
+        logger.info("Fetching all users from database");
+
+        List<User> users = userRepository.findAll();
+        logger.info("Total users fetched: {}", users.size());
+
+        // TODO: 1.4
+        // For each user, generate and set greeting message
+        for (User user : users) {
+            String greeting = generateGreetingMsg(user.getRole());
+            user.setUserGreetingMessage(greeting);
+        }
+
+        return users;
     }
 
-    public User getUserById(Long id) {
+
+//    public User getUserById(Long id) {
 
         //TODO: 1.1
         // Log incoming request with user ID
         // Example: logger.info("Fetching user with id {}", id);
         // Fetch user from repository
         // test the result on swagger or postman
-        return null;
+        // Log incoming request with user ID
+
+//        return null;
+
 
         //TODO: 1.3
         // Before returning the User object, call generateGreetingMsg(role)
@@ -55,6 +74,25 @@ public class UserService  {
         // Hint: Use user.setUserGreetingMessage(greeting)
         // test the result on swagger or postman
 
+//    }
+    public User getUserById(Long id) {
+        // Log incoming request with user ID
+        logger.info("Fetching user with id {}", id);
+
+        // Fetch user from repository
+        User user = userRepository.findById(id).orElse(null);
+
+        // Check if user was found
+        if (user != null) {
+            // Generate greeting message using the user's role
+            String greeting = generateGreetingMsg(user.getRole());
+
+            // Set the greeting message in the User object
+            user.setUserGreetingMessage(greeting);
+        }
+
+        // Return the fetched user (with or without greeting)
+        return user;
     }
 
     @Transactional
@@ -78,7 +116,16 @@ public class UserService  {
         // Example: "User access"
         // return the complete greeting message as a String
         // write a unit test to verify this method works as expected
-        return null;
+
+        // Perform a case-insensitive check to determine the role.
+        if ("ADMIN".equalsIgnoreCase(role)) {
+            // Append an admin-specific message
+            return "Admin access enabled";
+        } else {
+            // Append a standard user message
+            return "User access";
+        }
+//        return null;
     }
 
     public User updateUserStatus(Long id) {

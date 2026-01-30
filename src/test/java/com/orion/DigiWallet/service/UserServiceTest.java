@@ -158,11 +158,11 @@ class UserServiceTest {
         // Uncomment the below assertions after implementing greeting message logic
         //ONLY IF 1.4 IS DONE
 
-       // assertNotNull(result.get(0).getUserGreetingMessage());
-        // assertNotNull(result.get(1).getUserGreetingMessage());
+        assertNotNull(result.get(0).getUserGreetingMessage());
+         assertNotNull(result.get(1).getUserGreetingMessage());
 
-        // assertTrue(result.get(0).getUserGreetingMessage().contains("User access"));
-        // assertTrue(result.get(1).getUserGreetingMessage().contains("Admin access"));
+         assertTrue(result.get(0).getUserGreetingMessage().contains("User access"));
+         assertTrue(result.get(1).getUserGreetingMessage().contains("Admin access"));
 
         // Verify repository interaction
         verify(mockUserRepository, times(1)).findAll();
